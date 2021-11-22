@@ -1,0 +1,64 @@
+CRUD using Springboot and MongoDB
+=================================
+
+0)
+Add below dependencies
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+1) Enable remote access in mongodb server by below steps
+
+	* sudo vi /etc/mongod.conf
+	
+	* Change the bind_ip from 127.0.0.1 to 0.0.0.0
+	
+		bindIp: 0.0.0.0
+		
+	* sudo service mongod restart
+
+2) In the mongodb server, get the port where MongoDB is listening to by following command 
+	
+sudo lsof -iTCP -sTCP:LISTEN | grep mongo
+mongod    4483         mongodb   11u  IPv4  59988      0t0  TCP localhost:27017 (LISTEN)
+	
+
+2) Add the 	below details in application.properties file
+	
+spring.data.mongodb.host=13.232.217.168
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=playerDB
+
+3) Enable the fireall for port 27017 as below
+
+	sudo iptables -A INPUT -p tcp --dport 27017 -j ACCEPT
+
+==============================================================================================
+
+For custom queries refer the below link
+
+https://javatechonline.com/spring-boot-mongodb-query-examples/
+
+==============================================================================================
+For testing fire the below values from Post man to add players
+
+{"name":"Ajinkya Rahane","country":"India","skill":"BAT","age":29,"dob":"1992-05-07T12:15:00"}
+
+{"name":"Rohit Sharma","country":"India","skill":"BAT","age":32,"dob":"1989-09-27T22:15:00"}
+
+{"name":"Ishan Kishan","country":"India","skill":"BAT","age":22,"dob":"1999-11-23T07:15:00"}
+
+{"name":"Sreyas Iyer","country":"India","skill":"BAT","age":23,"dob":"1998-03-17T17:15:00"}
+
+{"name":"R Ashwin","country":"India","skill":"BOW","age":30,"dob":"1991-12-19T05:15:00"}
+
+{"name":"J Bumrah","country":"India","skill":"BOW","age":28,"dob":"1993-01-31T11:15:00"}
+
+
+Note: The dob date format is in ISO8601 data format [YYYY-MM-DDTHH:MM:SS]
